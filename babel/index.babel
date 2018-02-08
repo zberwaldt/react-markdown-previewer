@@ -1,0 +1,45 @@
+const node = document.getElementById("container");
+
+class MarkdownEditor extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = { 
+      value: `# Hello
+Welcome to the React Markdown previewer!
+
+Here is why you should use it:
+
+1. It's cool
+2. It's made in react
+3. Other reasons:
+  * **I said so**
+  * **I said so &times; infinity _I win._**` };
+  }
+
+  handleChange(e) {
+    this.setState({ value: e.target.value });
+  }
+
+  getRawMarkup() {
+    return { __html: marked(this.state.value) };
+  }
+
+  render() {
+    return (
+      <div className="MarkdownEditor">
+        <div className="editor">
+          <h3>Input</h3>
+          <textarea onChange={this.handleChange} defaultValue={this.state.value}/>
+        </div>
+        <div className="output">
+          <h3>Output</h3>
+          <div className="content" dangerouslySetInnerHTML={this.getRawMarkup()}>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<MarkdownEditor />, node);
